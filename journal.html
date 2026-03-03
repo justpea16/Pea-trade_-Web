@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Journal | TRADERLAB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <ul class="nav-links left-menu">
+            <li><a href="dow.html">Dow Theory</a></li>
+            <li><a href="market.html">Market Structure</a></li>
+        </ul>
+        <div class="logo-center">
+            <div class="logo-side-text left">
+                <span class="dot-online" id="market-dot"></span>
+                <small id="market-status">MARKET LIVE</small>
+            </div>
+            <a href="First page.html" class="logo-wrapper">
+                <div class="logo-ring"></div>
+                <div class="logo-ring-inner"></div>
+                <img src="img/pea logo.jpg" alt="Logo" class="main-logo-circular">
+            </a>
+            <div class="logo-side-text right">
+                <small>EST. 2026</small>
+                <span class="text-gold">TRD LAB</span>
+            </div>
+        </div>
+        <ul class="nav-links right-menu">
+            <li><a href="journal.html">Journal</a></li>
+            <li><a href="wyckoff.html">Wyckoff Logic</a></li>
+            <li><a href="First page.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-page container">
+        <header class="lesson-header">
+            <h1>Trading <span class="highlight">Journal</span></h1>
+            <p>บันทึกทุกไม้ วิเคราะห์ทุกแผน เพื่อการเทรดที่ยั่งยืน</p>
+        </header>
+
+        <section class="add-trade-section">
+            <div class="content-card shadow-gold">
+                <h2 class="form-title">📊 บันทึกการเทรดใหม่</h2>
+                <form id="journal-form" class="journal-form-grid">
+                    <div class="input-group">
+                        <label>วันที่</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="input-group">
+                        <label>คู่เงิน/สินทรัพย์</label>
+                        <input type="text" id="pair" placeholder="เช่น XAUUSD หรือ BTC" required>
+                    </div>
+                    <div class="input-group">
+                        <label>ฝั่งที่เล่น</label>
+                        <select id="side">
+                            <option value="BUY">🟢 BUY</option>
+                            <option value="SELL">🔴 SELL</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>เทคนิค (Setup)</label>
+                        <input type="text" id="setup" placeholder="เช่น BOS + Order Block" required>
+                    </div>
+                    <div class="input-group">
+                        <label>R:R Ratio</label>
+                        <input type="text" id="rr" placeholder="เช่น 1:3" required>
+                    </div>
+                    <div class="input-group">
+                        <label>ผลลัพธ์</label>
+                        <select id="result">
+                            <option value="WIN">🏆 WIN</option>
+                            <option value="LOSS">❌ LOSS</option>
+                        </select>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>รูปภาพกราฟ (Screenshot)</label>
+                        <input type="file" id="trade-image" accept="image/*" class="file-input">
+                    </div>
+                    <div class="input-group full-width">
+                        <label>บันทึกเพิ่มเติม</label>
+                        <textarea id="note" rows="2" placeholder="ใส่เหตุผลหรืออารมณ์ตอนเทรด..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit-journal">💾 บันทึกลงไดอารี่</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="journal-list-section">
+            <div class="table-container">
+                <table class="journal-table">
+                    <thead>
+                        <tr>
+                            <th>วันที่</th>
+                            <th>สินทรัพย์</th>
+                            <th>Side</th>
+                            <th>Setup</th>
+                            <th>R:R</th>
+                            <th>ผลลัพธ์</th>
+                            <th>รูปภาพ</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody id="journal-body">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-simple">
+        <p>&copy; 2026 TRADERLAB Academy. All Rights Reserved.</p>
+    </footer>
+
+    <script src="js./java.js"></script>
+</body>
+</html>
