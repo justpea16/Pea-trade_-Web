@@ -1,0 +1,943 @@
+/* =========================================
+   1. GLOBAL SETTINGS & VARIABLES
+   (ตั้งค่าตัวแปรสีพื้นฐานที่ใช้ทั้งเว็บ)
+   ========================================= */
+:root {
+    --primary-color: #f0b90b; /* สีเหลืองทองหลัก */
+    --bg-dark: #0b0e11;      /* สีพื้นหลังมืด */
+    --card-bg: #1e2126;      /* สีพื้นหลังการ์ดหรือกล่องเนื้อหา */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Kanit', sans-serif;
+    background-color: var(--bg-dark);
+    color: white;
+}
+
+/* =========================================
+   2. NAVBAR (แถบเมนูด้านบน)
+   ========================================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+    background: rgba(11, 14, 17, 0.8);
+    backdrop-filter: blur(12px); /* เอฟเฟกต์กระจกฝ้า */
+    border-bottom: 1px solid rgba(240, 185, 11, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.3s;
+    position: relative;
+}
+
+.nav-links a:hover { color: var(--primary-color); }
+
+/* เส้นใต้วิ่งเวลา Hover ที่เมนู */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0; height: 2px;
+    bottom: -5px; left: 0;
+    background: var(--primary-color);
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after { width: 100%; }
+
+/* โลโก้วงกลม Pea Trading */
+.main-logo-circular {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+    transition: 0.5s;
+    background: white;
+}
+
+.main-logo-circular:hover {
+    transform: rotate(360deg) scale(1.1); /* หมุนและขยายเวลาเอาเมาส์ชี้ */
+    box-shadow: 0 0 20px rgba(240, 185, 11, 0.5);
+}
+/* คลุมส่วนโลโก้ทั้งหมด */
+.logo-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 85px;
+    height: 85px;
+}
+
+/* วงแหวนชั้นนอกที่หมุนรอบๆ */
+.logo-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    animation: rotateRing 4s linear infinite; /* หมุนตลอดเวลา */
+}
+
+/* วงแหวนชั้นในที่เต้นเป็นจังหวะ */
+.logo-ring-inner {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: 1px dashed rgba(240, 185, 11, 0.5);
+    animation: pulseRing 2s ease-in-out infinite;
+}
+
+/* ปรับแต่งรูปโลโก้หลัก */
+.main-logo-circular {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+    border: 2px solid var(--primary-color);
+    transition: 0.5s;
+    background: white;
+    box-shadow: 0 0 15px rgba(240, 185, 11, 0.3);
+}
+
+/* แอนิเมชันหมุน */
+@keyframes rotateRing {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* แอนิเมชันเต้นเป็นจังหวะ */
+@keyframes pulseRing {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 0.3; }
+}
+
+/* เมื่อเอาเมาส์ชี้ ให้ทุกอย่างเรืองแสงแรงขึ้น */
+.logo-wrapper:hover .main-logo-circular {
+    box-shadow: 0 0 30px rgba(240, 185, 11, 0.8);
+    transform: scale(1.05);
+}
+/* จัดการ Layout ส่วนกลางของ Navbar */
+.logo-center {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* ระยะห่างระหว่างข้อความกับโลโก้ */
+}
+
+/* ข้อความขนาดเล็กข้างโลโก้ */
+.logo-side-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    min-width: 70px;
+}
+
+.logo-side-text.left { text-align: right; align-items: flex-end; }
+.logo-side-text.right { text-align: left; align-items: flex-start; }
+.text-gold { color: var(--primary-color); font-weight: bold; }
+
+/* จุดไฟกะพริบสถานะ Live */
+.dot-online {
+    width: 6px; height: 6px;
+    background-color: #26a69a;
+    border-radius: 50%;
+    margin-bottom: 4px;
+    box-shadow: 0 0 5px #26a69a;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* ส่วนแสดงผลโลโก้และวงแหวน */
+.logo-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+    height: 75px;
+}
+
+.logo-ring {
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    animation: rotateRing 4s linear infinite;
+}
+
+.logo-ring-inner {
+    position: absolute;
+    width: 85%; height: 85%;
+    border-radius: 50%;
+    border: 1px dashed rgba(240, 185, 11, 0.4);
+    animation: pulseRing 2s ease-in-out infinite;
+}
+
+.main-logo-circular {
+    width: 55px; /* ปรับขนาดลงเล็กน้อยเพื่อให้สมดุลกับข้อความข้างๆ */
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+    border: 2px solid var(--primary-color);
+    background: white;
+}
+
+/* แอนิเมชันสำหรับวงแหวน */
+@keyframes rotateRing {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulseRing {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 0.3; }
+}
+/* =========================================
+   3. HERO SECTION (ส่วนหัวหน้าแรก)
+   ========================================= */
+.hero {
+    height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.highlight { color: var(--primary-color); }
+
+/* แสงฟุ้งวงกลมพื้นหลัง Hero */
+.glow-circle {
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(240, 185, 11, 0.1) 0%, transparent 70%);
+    filter: blur(60px);
+    z-index: -1;
+}
+
+/* =========================================
+   4. QUICK NAV CARDS (การ์ดเลือกบทเรียนหน้าแรก)
+   ========================================= */
+.quick-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px 0;
+}
+
+.nav-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+    border: 1px solid #333;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.nav-card:hover {
+    transform: translateY(-12px); /* ยกตัวขึ้น */
+    border-color: var(--primary-color);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* ไอคอนตัวเลขภายในการ์ด */
+.nav-card-icon {
+    width: 45px; height: 45px;
+    background: var(--primary-color);
+    color: black;
+    border-radius: 12px;
+    display: flex;
+    align-items: center; justify-content: center;
+    font-weight: bold; font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* แถบราคาวิ่ง Ticker */
+.ticker-container {
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
+
+/* =========================================
+   5. CONTACT SECTION (ส่วนติดต่อสอบถาม)
+   ========================================= */
+.contact-section {
+    padding: 80px 0;
+    background: linear-gradient(180deg, var(--bg-dark) 0%, #16191e 100%);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: start;
+    margin-top: 30px;
+}
+
+.contact-info h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 25px;
+}
+
+.contact-list li {
+    margin-bottom: 15px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-icon {
+    margin-right: 15px;
+    font-size: 22px;
+}
+
+/* ฟอร์มส่งข้อความ */
+.contact-form {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 35px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #444;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Kanit', sans-serif;
+    outline: none;
+    transition: 0.3s;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(240, 185, 11, 0.2);
+}
+
+/* ปุ่มกดส่งฟอร์ม */
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 10px;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background: white;
+    transform: scale(1.02);
+}
+
+/* การแสดงผลบนมือถือ */
+@media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; }
+}
+
+/* =========================================
+   6. LESSON CONTENT (หน้าเนื้อหาบทเรียนทั่วไป)
+   ========================================= */
+.content-page {
+    padding-top: 50px;
+    line-height: 1.8;
+}
+
+.lesson-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+/* กล่องเนื้อหาบทเรียน */
+.content-card {
+    background: #1e2126;
+    padding: 40px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    border-left: 5px solid var(--primary-color); /* เส้นขอบหนาสีทองด้านซ้าย */
+}
+
+.trend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.trend-item {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+/* รายการข้อกำหนด Dow Theory */
+.dow-rules li {
+    margin-bottom: 15px;
+    list-style-type: none;
+    position: relative;
+    padding-left: 25px;
+}
+
+.dow-rules li::before {
+    content: "🔸";
+    position: absolute;
+    left: 0;
+}
+
+.shadow-gold {
+    box-shadow: 0 10px 30px rgba(240, 185, 11, 0.1);
+}
+
+/* =========================================
+   7. NAVIGATION FOOTER (ปุ่มเปลี่ยนบทเรียนท้ายหน้า)
+   ========================================= */
+.navigation-footer {
+    padding: 60px 0 100px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 50px;
+}
+
+.nav-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ปุ่มย้อนกลับ */
+.btn-back-home {
+    display: flex;
+    align-items: center;
+    padding: 12px 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    color: #ccc;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+.btn-back-home:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* ปุ่มบทเรียนถัดไป */
+.btn-next-lesson {
+    display: flex;
+    align-items: center;
+    padding: 12px 30px;
+    background: #f0b90b;
+    color: #000;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(240, 185, 11, 0.2);
+}
+
+.btn-next-lesson:hover {
+    background: #fff;
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   8. MARKET STRUCTURE (บทเรียน BOS / CHoCH)
+   ========================================= */
+.structure-list {
+    margin-top: 15px;
+    padding-left: 20px;
+}
+
+.structure-list li {
+    margin-bottom: 10px;
+    list-style: none;
+    position: relative;
+}
+
+.structure-list li::before {
+    content: "⚡";
+    position: absolute;
+    left: -25px;
+}
+
+/* =========================================
+   9. WYCKOFF THEORY (บทเรียนวัฏจักรตลาด)
+   ========================================= */
+.wyckoff-laws {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.law-item {
+    background: rgba(240, 185, 11, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.cycle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.cycle-box {
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #444;
+}
+
+/* สีขอบเน้นแต่ละระยะของตลาด */
+.cycle-box.acc { border-bottom: 4px solid #26a69a; }      /* Accumulation */
+.cycle-box.markup { border-left: 4px solid #26a69a; }    /* Mark Up */
+.cycle-box.dist { border-top: 4px solid #ef5350; }       /* Distribution */
+.cycle-box.markdown { border-right: 4px solid #ef5350; } /* Mark Down */
+
+.cycle-box h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+/* คลาสเริ่มต้นสำหรับ JS Scroll Reveal */
+.reveal-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+/* คลาสที่จะถูกเติมโดย JS เมื่อเลื่อนมาถึง */
+.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.dot-online {
+    width: 6px;
+    height: 6px;
+    /* ลบ background-color เดิมออก */
+    border-radius: 50%;
+    margin-bottom: 4px;
+    animation: blink 1.5s infinite;
+    transition: 0.3s; /* เพิ่มเพื่อให้ตอนเปลี่ยนสีดูนุ่มนวล */
+}
+/* =========================================
+   NEW TRADING JOURNAL DASHBOARD STYLES
+   (อัปเกรดความสวยงามให้ดูพรีเมียม)
+   ========================================= */
+
+/* 1. ส่วนหัวหน้าเว็บ (Lesson Header) */
+.lesson-header p {
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 600px;
+    margin: 10px auto 0;
+}
+
+/* 2. การ์ดสรุปสถิติ (Stats Overview) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ปรับขนาดให้ใหญ่ขึ้น */
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+.stat-card {
+    background: linear-gradient(145deg, #1e2126, #16191e); /* ใส่ Gradient อ่อนๆ */
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* เอฟเฟกต์แสงฟุ้งหลังการ์ดเวลามีวินัย */
+.stat-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(240, 185, 11, 0.2);
+    box-shadow: 0 15px 40px rgba(240, 185, 11, 0.1);
+}
+
+.stat-card small {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+}
+
+.stat-card h3 {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* กำหนดสีเฉพาะสำหรับการ์ดแต่ละประเภท */
+.stat-total h3 { color: white; }
+.stat-winrate h3 { color: #26a69a; text-shadow: 0 0 15px rgba(38, 166, 154, 0.5); }
+.stat-profit h3 { color: #f0b90b; text-shadow: 0 0 15px rgba(240, 185, 11, 0.5); }
+
+/* เพิ่มไอคอนพื้นหลังจางๆ ให้การ์ดดูมีอะไร (Optional: ใช้ Emoji แทน) */
+.stat-card::after {
+    content: "📊"; /* เปลี่ยนเป็นไอคอนที่ชอบได้ เช่น 🏆, 💰 */
+    position: absolute;
+    font-size: 80px;
+    bottom: -20px;
+    right: -10px;
+    opacity: 0.03;
+    transform: rotate(-15deg);
+}
+
+/* 3. ส่วนฟอร์มกรอกข้อมูล (Add New Trade) */
+.add-trade-section {
+    margin-bottom: 40px;
+}
+
+/* ตกแต่ง content-card ของฟอร์มให้เด่นขึ้น */
+.add-trade-section .content-card {
+    background: #16191e;
+    border: 1px solid rgba(240, 185, 11, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.journal-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.journal-form-grid input, 
+.journal-form-grid select {
+    padding: 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Kanit', sans-serif;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.journal-form-grid input:focus, 
+.journal-form-grid select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(240, 185, 11, 0.2);
+    outline: none;
+}
+
+/* ปรับปุ่ม submit ให้พรีเมียม */
+.journal-form-grid .btn-submit {
+    background: var(--primary-color);
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    grid-column: span 1;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.journal-form-grid .btn-submit:hover {
+    background: white;
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* 4. ส่วนตารางบันทึกการเทรด (Journal Table) */
+.table-wrapper {
+    overflow-x: auto;
+    background: #16191e;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+/* แสงเรืองอ่อนๆ รอบตาราง */
+.table-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 20px;
+    box-shadow: inset 0 0 20px rgba(240, 185, 11, 0.05);
+    pointer-events: none;
+}
+
+.journal-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.journal-table th, .journal-table td {
+    padding: 18px 25px; /* เพิ่ม padding ให้ดูโปร่งขึ้น */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* หัวตาราง (Table Header) */
+.journal-table th {
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--primary-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 12px;
+}
+
+/* ตกแต่งแถว (Table Row) เวลา Hover */
+.journal-table tbody tr {
+    transition: 0.3s;
+}
+
+.journal-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* สีข้อความ Side */
+.text-buy { color: #26a69a; font-weight: bold; }
+.text-sell { color: #ef5350; font-weight: bold; }
+
+/* แถบสีสถานะ (Status Pill) ให้ดูโค้งมนนุ่มนวล */
+.res-win { 
+    background: rgba(38, 166, 154, 0.15); 
+    color: #26a69a; 
+    padding: 5px 15px; 
+    border-radius: 50px; 
+    font-size: 11px; 
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid rgba(38, 166, 154, 0.3);
+}
+
+.res-loss { 
+    background: rgba(239, 83, 80, 0.15); 
+    color: #ef5350; 
+    padding: 5px 15px; 
+    border-radius: 50px; 
+    font-size: 11px; 
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid rgba(239, 83, 80, 0.3);
+}/* =========================================
+   TRADING JOURNAL - NEW DESIGN 2026
+   ========================================= */
+
+.form-title {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* ปรับโครงสร้างฟอร์มให้กรอกง่าย */
+.journal-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+}
+
+.input-group.full-width {
+    grid-column: 1 / -1; /* ให้ช่องยาวเต็มแถว */
+}
+
+/* ตกแต่ง Input & Select */
+.journal-form-grid input, 
+.journal-form-grid select, 
+.journal-form-grid textarea {
+    padding: 12px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Kanit', sans-serif;
+    transition: 0.3s;
+}
+
+.journal-form-grid input:focus {
+    border-color: var(--primary-color);
+    background: rgba(240, 185, 11, 0.05);
+}
+
+/* ปุ่มบันทึกแบบพรีเมียม */
+.btn-submit-journal {
+    grid-column: 1 / -1;
+    padding: 15px;
+    background: var(--primary-color);
+    color: black;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-submit-journal:hover {
+    background: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(240, 185, 11, 0.4);
+}
+
+/* ตกแต่งตาราง */
+.table-container {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 10px;
+    margin-top: 40px;
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow-x: auto;
+}
+
+.journal-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+.journal-table th {
+    text-align: left;
+    padding: 15px;
+    color: var(--primary-color);
+    border-bottom: 2px solid #333;
+    font-size: 0.9rem;
+}
+
+.journal-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.9rem;
+}
+
+/* ตกแต่งรูปภาพในตาราง (Thumbnail) */
+.trade-thumb {
+    width: 80px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #444;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.trade-thumb:hover {
+    transform: scale(1.5);
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+/* สีสถานะ */
+.res-win { color: #26a69a; font-weight: bold; }
+.res-loss { color: #ef5350; font-weight: bold; }
+/* ตกแต่งแถวที่เพิ่มใหม่ให้มีการ Highlight */
+#journal-body tr {
+    animation: fadeInRow 0.5s ease-in-out;
+}
+
+@keyframes fadeInRow {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ปรับแต่ง Thumbnail รูปภาพ */
+.trade-thumb:hover {
+    transform: scale(1.1);
+    transition: 0.2s;
+    border: 1px solid var(--primary-color);
+}
+/* ปุ่มลบบันทึก */
+.btn-delete {
+    background: transparent;
+    border: 1px solid rgba(239, 83, 80, 0.3);
+    color: #ef5350;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.btn-delete:hover {
+    background: rgba(239, 83, 80, 0.1);
+    border-color: #ef5350;
+    transform: scale(1.1);
+}
+
+/* ปรับแต่งหัวตารางเพิ่มช่อง Action */
+.journal-table th:last-child {
+    text-align: center;
+}
